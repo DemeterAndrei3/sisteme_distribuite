@@ -1,0 +1,4 @@
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><body>
+<header th:fragment="header" class="topbar"><a class="brand" href="/">Shop<span>Online</span></a><nav><a href="/">Magazin</a><a href="/cart">Coș</a><a href="/orders">Comenzile mele</a><a href="/admin">Administrare</a><a href="/login">Autentificare</a><form th:action="@{/logout}" method="post" style="display:inline"><button class="linkbtn" type="submit">Ieșire</button></form></nav></header>
+<footer th:fragment="footer">© 2026 Shop Online · Proiect universitar – Proiectarea Aplicațiilor Web</footer>
+</body></html>

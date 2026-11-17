@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: shop-online-db
+    environment:
+      POSTGRES_DB: shop_online
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop123
+    ports:
+      - "5432:5432"
+    volumes:
+      - shop_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shop -d shop_online"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  shop_data:
