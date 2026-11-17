@@ -1,0 +1,34 @@
+services:
+  rate-service:
+    build: ./rate-service
+    container_name: rate-service
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  conversion-service:
+    build: ./conversion-service
+    container_name: conversion-service
+    environment:
+      RATE_SERVICE_URL: http://rate-service:8002
+    ports:
+      - "8001:8001"
+    depends_on:
+      rate-service:
+        condition: service_healthy
+
+  gateway:
+    build: ./gateway
+    container_name: api-gateway
+    environment:
+      CONVERSION_SERVICE_URL: http://conversion-service:8001
+      RATE_SERVICE_URL: http://rate-service:8002
+    ports:
+      - "8000:8000"
+    depends_on:
+      - conversion-service
+      - rate-service
